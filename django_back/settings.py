@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,15 +27,19 @@ SECRET_KEY = 'django-insecure-yoii*mx%9k9!_b5^i@&hh_hg7m)tg!72x62^ls=mx*^@)cel_g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'ec2-16-16-211-119.eu-north-1.compute.amazonaws.com',]
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'ec2-16-16-25-0.eu-north-1.compute.amazonaws.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'djoser',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'rest_framework',
     'corsheaders',
     'api',
+    'drf_spectacular',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +61,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_back.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 TEMPLATES = [
     {
@@ -133,5 +148,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/api/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'api/media')
+
+AUTH_USER_MODEL = "api.User" 
